@@ -1,2 +1,3 @@
 # pass-gen
-pass-gen library
+
+Password generation React app

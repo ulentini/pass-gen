@@ -1,11 +1,14 @@
+const { fontFamily } = require("tailwindcss/defaultTheme")
+
 module.exports = {
   theme: {
-    // Some useful comment
+    extend: {
+      fontFamily: {
+        sans: ["Inter", ...fontFamily.sans],
+        mono: ["PT Mono", ...fontFamily.mono],
+      },
+    },
   },
-  variants: {
-    // Some useful comment
-  },
-  plugins: [
-    // Some useful comment
-  ],
+  variants: {},
+  plugins: [],
 }

@@ -87,3 +87,6 @@ typings/
 
 # IntelliJ directory
 /.idea/
+
+.DS_Store
+/build/

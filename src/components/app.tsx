@@ -1,10 +1,11 @@
 import React, { FC } from "react"
 import "../css/tailwind.css"
+import { PasswordGenerator } from "./password-generator"
 
 const App: FC<{}> = () => {
   return (
-    <div className="bg-teal-600 h-screen text-white flex items-center">
-      <h1 className="text-center font-bold text-5xl w-full">Hello Dev!</h1>
+    <div className="bg-gray-100 h-screen flex items-center justify-center">
+      <PasswordGenerator />
     </div>
   )
 }
