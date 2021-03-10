@@ -77,8 +77,21 @@ export function usePasswordGenerator(options: PasswordGeneratorOptions) {
   }
 
   useEffect(() => {
-    regeneratePassword()
-  }, Object.values(options))
+    const opts: PasswordGeneratorOptions = {
+      length: options.length,
+      numbers: options.numbers,
+      specialCharacters: options.specialCharacters,
+      uppercase: options.uppercase,
+      words: options.words,
+    }
+    setCurrentPassword(generatePassword(opts))
+  }, [
+    options.length,
+    options.numbers,
+    options.specialCharacters,
+    options.uppercase,
+    options.words,
+  ])
 
   return {
     currentPassword,
