@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react"
 import { Button, Checkbox, Slider } from "rsuite"
-import "rsuite/dist/styles/rsuite-default.css"
-import { usePasswordGenerator } from "../hooks/use-password-generator"
+import { usePasswordGenerator } from "./hooks/use-password-generator"
 import copy from "clipboard-copy"
-import { useKeyboardListener } from "../hooks/use-keyboard-listener"
+import { useKeyboardListener } from "./hooks/use-keyboard-listener"
 
 export const PasswordGenerator: React.FC = () => {
   const [uppercase, setUppercase] = useState(true)
@@ -20,7 +19,7 @@ export const PasswordGenerator: React.FC = () => {
     words: false,
   })
 
-  useKeyboardListener(e => {
+  useKeyboardListener((e) => {
     if (e.key === "r") {
       regeneratePassword()
     }
@@ -84,7 +83,7 @@ export const PasswordGenerator: React.FC = () => {
                 max={32}
                 graduated
                 progress
-                onChange={value => {
+                onChange={(value) => {
                   setLength(value)
                 }}
               />

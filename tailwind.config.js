@@ -1,6 +1,8 @@
+// tailwind.config.js
 const { fontFamily } = require("tailwindcss/defaultTheme")
 
 module.exports = {
+  purge: ["./public/**/*.html", "./src/**/*.{js,jsx,ts,tsx,vue}"],
   theme: {
     extend: {
       fontFamily: {
@@ -9,6 +11,4 @@ module.exports = {
       },
     },
   },
-  variants: {},
-  plugins: [],
 }
