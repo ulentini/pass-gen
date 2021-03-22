@@ -36,7 +36,7 @@ export const PasswordGenerator: React.FC = () => {
 
   return (
     <div className="container mx-auto flex justify-center items-center">
-      <div className="w-full p-4 md:w-4/5 lg:w-2/3">
+      <div className="w-full p-4 md:w-4/5 lg:w-2/3 xl:w-1/2">
         <p
           className={`text-3xl sm:text-5xl lg:text-6xl font-mono text-center cursor-pointer color-transition ${color}`}
           onClick={() => copyToClipboard()}
