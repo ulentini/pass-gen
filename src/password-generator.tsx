@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react"
-import { Button, Checkbox, Slider } from "rsuite"
 import { usePasswordGenerator } from "./hooks/use-password-generator"
 import copy from "clipboard-copy"
 import { useKeyboardListener } from "./hooks/use-keyboard-listener"
+import { Switch } from "./components/switch"
 
 export const PasswordGenerator: React.FC = () => {
   const [uppercase, setUppercase] = useState(true)
@@ -35,7 +35,7 @@ export const PasswordGenerator: React.FC = () => {
   }, [currentPassword])
 
   return (
-    <div className="container mx-auto flex justify-center items-center">
+    <div className="container mx-auto flex justify-center items-center text-gray-700">
       <div className="w-full p-4 md:w-4/5 lg:w-2/3 xl:w-1/2">
         <p
           className={`text-3xl sm:text-5xl lg:text-6xl font-mono text-center cursor-pointer color-transition ${color}`}
@@ -44,59 +44,36 @@ export const PasswordGenerator: React.FC = () => {
           {currentPassword}
         </p>
         <div className="w-full bg-white border border-gray-300 rounded my-4">
-          <div className="flex justify-around w-full">
-            <Checkbox
-              checked={uppercase}
-              onChange={(value, checked) => {
-                setUppercase(checked)
-              }}
-              className="text-lg"
-            >
+          <div className="flex justify-around w-full py-4">
+            <Switch checked={uppercase} onChange={setUppercase}>
               Aa
-            </Checkbox>
-            <Checkbox
-              checked={numbers}
-              onChange={(value, checked) => {
-                setNumbers(checked)
-              }}
-              className="text-lg"
-            >
+            </Switch>
+            <Switch checked={numbers} onChange={setNumbers}>
               123
-            </Checkbox>
-            <Checkbox
-              checked={specialCharacters}
-              onChange={(value, checked) => {
-                setSpecialCharacters(checked)
-              }}
-              className="text-lg"
-            >
+            </Switch>
+            <Switch checked={specialCharacters} onChange={setSpecialCharacters}>
               #!?
-            </Checkbox>
-          </div>
-
-          <div className="py-4 w-full px-6 flex items-center">
-            <div className="flex-grow">
-              <Slider
-                value={length}
+            </Switch>
+            <div>
+              <input
+                type="number"
                 min={6}
-                step={2}
                 max={32}
-                graduated
-                progress
-                onChange={(value) => {
-                  setLength(value)
-                }}
+                value={length}
+                onChange={(e) => setLength(parseInt(e.target.value))}
+                className="border-2 border-gray-200 px-3 py-1 rounded-lg mr-2 focus:outline-none focus:ring-2 focus:ring-pink-300"
               />
-            </div>
-            <div className="ml-6">
-              <strong>{length}</strong> Chars
+              Chars
             </div>
           </div>
         </div>
         <div className="flex justify-center">
-          <Button appearance="primary" size="lg" onClick={regeneratePassword}>
+          <button
+            className="px-4 py-2 bg-gradient-to-tr from-blue-700 to-pink-500 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-300"
+            onClick={regeneratePassword}
+          >
             New password
-          </Button>
+          </button>
         </div>
       </div>
     </div>
