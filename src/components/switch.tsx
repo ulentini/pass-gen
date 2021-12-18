@@ -8,7 +8,11 @@ export const Switch: React.FC<{
   return (
     <HSwitch.Group>
       <div className="flex items-center">
-        {children && <HSwitch.Label className="mr-4">{children}</HSwitch.Label>}
+        {children && (
+          <HSwitch.Label className="mr-4 w-10 text-right">
+            {children}
+          </HSwitch.Label>
+        )}
         <HSwitch
           checked={checked}
           onChange={onChange}

@@ -45,8 +45,8 @@ export const PasswordGenerator: React.FC = () => {
         >
           {currentPassword}
         </p>
-        <div className="w-full bg-white border border-gray-300 rounded my-4">
-          <div className="flex justify-around w-full py-4">
+        <div className="w-full bg-white border-2 border-gray-200 rounded-lg my-4">
+          <div className="flex-wrap flex justify-around w-full gap-4 p-4">
             <Switch checked={uppercase} onChange={setUppercase}>
               Aa
             </Switch>
@@ -63,7 +63,7 @@ export const PasswordGenerator: React.FC = () => {
                 max={32}
                 value={length}
                 onChange={(e) => setLength(parseInt(e.target.value))}
-                className="border-2 border-gray-200 px-3 py-1 rounded-lg mr-2 focus:outline-none focus:ring-2 focus:ring-pink-300"
+                className="border-2 border-gray-200 px-2 md:px-3 py-1 text-center rounded-lg mr-2 focus:outline-none focus:ring-2 focus:ring-pink-300"
               />
               Chars
             </div>
