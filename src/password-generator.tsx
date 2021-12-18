@@ -22,6 +22,8 @@ export const PasswordGenerator: React.FC = () => {
   useKeyboardListener((e) => {
     if (e.key === "r") {
       regeneratePassword()
+    } else if (e.key === "c") {
+      copyToClipboard()
     }
   })
 
