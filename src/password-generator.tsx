@@ -6,6 +6,7 @@ import { Switch } from "./components/switch"
 
 export const PasswordGenerator: React.FC = () => {
   const [uppercase, setUppercase] = useState(true)
+  const [lowercase, setLowercase] = useState(true)
   const [numbers, setNumbers] = useState(true)
   const [specialCharacters, setSpecialCharacters] = useState(true)
   const [length, setLength] = useState(16)
@@ -15,6 +16,7 @@ export const PasswordGenerator: React.FC = () => {
     length,
     numbers,
     uppercase,
+    lowercase,
     specialCharacters,
     words: false,
   })
@@ -36,6 +38,22 @@ export const PasswordGenerator: React.FC = () => {
     setColor("text-gray-700")
   }, [currentPassword])
 
+  function guardSwitches(
+    setter: (value: boolean) => void,
+  ): (value: boolean) => void {
+    let total = 0
+    lowercase && total++
+    uppercase && total++
+    numbers && total++
+    specialCharacters && total++
+
+    return (value: boolean) => {
+      if (total > 1 || value) {
+        setter(value)
+      }
+    }
+  }
+
   return (
     <div className="container mx-auto flex justify-center items-center text-gray-700">
       <div className="w-full p-4 md:w-4/5 lg:w-2/3 xl:w-1/2">
@@ -47,13 +65,19 @@ export const PasswordGenerator: React.FC = () => {
         </p>
         <div className="w-full bg-white border-2 border-gray-200 rounded-lg my-4">
           <div className="flex-wrap flex justify-around w-full gap-4 p-4">
-            <Switch checked={uppercase} onChange={setUppercase}>
-              Aa
+            <Switch checked={uppercase} onChange={guardSwitches(setUppercase)}>
+              ABC
             </Switch>
-            <Switch checked={numbers} onChange={setNumbers}>
+            <Switch checked={lowercase} onChange={guardSwitches(setLowercase)}>
+              abc
+            </Switch>
+            <Switch checked={numbers} onChange={guardSwitches(setNumbers)}>
               123
             </Switch>
-            <Switch checked={specialCharacters} onChange={setSpecialCharacters}>
+            <Switch
+              checked={specialCharacters}
+              onChange={guardSwitches(setSpecialCharacters)}
+            >
               #!?
             </Switch>
             <div>

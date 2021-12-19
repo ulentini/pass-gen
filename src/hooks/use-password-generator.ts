@@ -4,6 +4,7 @@ interface PasswordGeneratorOptions {
   length: number
   numbers: boolean
   uppercase: boolean
+  lowercase: boolean
   specialCharacters: boolean
   words: boolean
 }
@@ -17,7 +18,7 @@ function generateAlphaNumericChar(number: boolean, uppercase: boolean): string {
 }
 
 function generateSpecialChar() {
-  const chars = "_#-?!"
+  const chars = "_#-?!.@"
   const r = Math.round(Math.random() * (chars.length - 1))
   return chars.split("")[r]
 }
@@ -26,41 +27,35 @@ export function generatePassword({
   length,
   numbers,
   uppercase,
+  lowercase,
   specialCharacters,
   words,
 }: PasswordGeneratorOptions) {
-  const parts = {
-    numbers: numbers ? Math.round(length * 0.3) : 0,
-    specialCharacters: specialCharacters ? Math.round(length * 0.2) : 0,
-    upperCaseLetters: 0,
-    lowerCaseLetters: 0,
-  }
+  const parts = generateParts({
+    length,
+    lowercase,
+    uppercase,
+    numbers,
+    specialCharacters,
+  })
 
-  const remaining = length - parts.numbers - parts.specialCharacters
-  parts.upperCaseLetters = uppercase ? Math.round(remaining * 0.5) : 0
-  parts.lowerCaseLetters = remaining - parts.upperCaseLetters
-
-  let keys = Object.keys(parts)
+  let keys = Object.keys(parts) as (keyof typeof parts)[]
   let password = ""
   while (password.length < length) {
-    const current = keys[~~(keys.length * Math.random())] as
-      | "numbers"
-      | "specialCharacters"
-      | "upperCaseLetters"
-      | "lowerCaseLetters"
+    const current = keys[~~(keys.length * Math.random())]
 
-    if (parts[current] > 0) {
+    if (parts[current]! > 0) {
       if (current === "specialCharacters") {
         password += generateSpecialChar()
       } else {
         const numberChar = current === "numbers"
-        const uppercaseChar = current === "upperCaseLetters"
+        const uppercaseChar = current === "uppercase"
 
         password += generateAlphaNumericChar(numberChar, uppercaseChar)
       }
-      parts[current]--
+      parts[current]!--
     } else {
-      keys = keys.filter(i => i !== current)
+      keys = keys.filter((i) => i !== current)
     }
   }
 
@@ -82,6 +77,7 @@ export function usePasswordGenerator(options: PasswordGeneratorOptions) {
       numbers: options.numbers,
       specialCharacters: options.specialCharacters,
       uppercase: options.uppercase,
+      lowercase: options.lowercase,
       words: options.words,
     }
     setCurrentPassword(generatePassword(opts))
@@ -90,6 +86,7 @@ export function usePasswordGenerator(options: PasswordGeneratorOptions) {
     options.numbers,
     options.specialCharacters,
     options.uppercase,
+    options.lowercase,
     options.words,
   ])
 
@@ -97,4 +94,60 @@ export function usePasswordGenerator(options: PasswordGeneratorOptions) {
     currentPassword,
     regeneratePassword,
   }
+}
+
+function generateParts({
+  length,
+  numbers,
+  uppercase,
+  lowercase,
+  specialCharacters,
+}: {
+  length: number
+  numbers: boolean
+  uppercase: boolean
+  lowercase: boolean
+  specialCharacters: boolean
+}) {
+  let total = 0
+  numbers && total++
+  uppercase && total++
+  lowercase && total++
+  specialCharacters && total++
+
+  const parts: {
+    lowercase?: number
+    uppercase?: number
+    numbers?: number
+    specialCharacters?: number
+  } = {}
+
+  const unit = Math.floor(length / total)
+  const partial = unit * total
+
+  if (lowercase) {
+    parts.lowercase = unit
+  }
+
+  if (uppercase) {
+    parts.uppercase = unit
+  }
+
+  if (numbers) {
+    parts.numbers = unit
+  }
+
+  if (specialCharacters) {
+    parts.specialCharacters = unit
+  }
+
+  const keys: (keyof typeof parts)[] = Object.keys(
+    parts,
+  ) as (keyof typeof parts)[]
+  const diff = length - partial
+  for (let i = 0; i < diff; i++) {
+    parts[keys[i]]!++
+  }
+
+  return parts
 }
